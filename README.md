@@ -1,1 +1,1 @@
-# odin-rps
+Making a rock, paper, scissors game with javascript!
