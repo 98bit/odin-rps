@@ -48,6 +48,7 @@ function playRound(playerSelection, computerSelection) {
         }
     }
 
+    // if user does not input a valid selection reprompt and run function again recursively
     console.log("You did not input a valid play. Please try again.");
     playerSelection = prompt("Please choose either 'Rock', 'Paper', or 'Scissors'");
     playerSelection = playerSelection.toLowerCase();
@@ -55,16 +56,15 @@ function playRound(playerSelection, computerSelection) {
 }
 
 function playGame() {
-    let playerSelection;
-    let computerSelection;
+    // initializing counters before loop
     let playerCounter = 0;
     let compCounter = 0;
-    let result;
+    // run the game for 5 rounds and then determine winner
     for (let i = 0; i < 5; i++) {
-        playerSelection = prompt("Please choose either 'Rock', 'Paper', or 'Scissors'");
+        let playerSelection = prompt("Please choose either 'Rock', 'Paper', or 'Scissors'");
         playerSelection = playerSelection.toLowerCase();
-        computerSelection = getComputerChoice();
-        result = playRound(playerSelection, computerSelection);
+        let computerSelection = getComputerChoice();
+        let result = playRound(playerSelection, computerSelection);
         if (result == 0) {
             compCounter++;
         }
