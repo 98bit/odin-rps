@@ -1,12 +1,13 @@
 function getComputerChoice() {
     // get a random number to determine computer choice
     let num = Math.floor(Math.random() * 3);
-    if (num == 0) {
-        return "rock";
-    } else if (num == 1) {
-        return "paper";
-    } else {
-        return "scissors";
+    switch (num) {
+        case 0:
+            return "rock";
+        case 1:
+            return "paper";
+        case 2:
+            return "scissors";
     }
 }
 
@@ -16,7 +17,7 @@ function playRound(playerSelection, computerSelection) {
     if (playerSelection == "rock") {
         if (computerSelection == "scissors") {
             gameLog.textContent = "You win this round. Rock beats Scissors";
-            return;
+            return 1;
         } else if (computerSelection == "paper") {
             gameLog.textContent = "You lose this round. Paper beats Rock";
             return 0;
@@ -51,43 +52,89 @@ function playRound(playerSelection, computerSelection) {
     }
 }
 
-function playGame() {
-    let playerCounter = 0;
-    let compCounter = 0;
+// UI
 
-    let rockButton = document.querySelector(".rock");
-    let paperButton = document.querySelector(".paper");
-    let scissorsButton = document.querySelector(".scissors");
+let playerCounter = 0;
+let compCounter = 0;
+let result;
+
+const rockButton = document.querySelector(".rock");
+const paperButton = document.querySelector(".paper");
+const scissorsButton = document.querySelector(".scissors");
+
+const playerResult = document.querySelector(".player");
+const compResult = document.querySelector(".comp");
+const gameResult = document.querySelector(".result");
+
+const replayButton = document.querySelector(".replay");
+
+function playGame() {
+    playerResult.textContent = "You: " + playerCounter;
+    compResult.textContent = "Computer: " + compCounter;
 
     rockButton.addEventListener("click", () => {
         let playerSelection = "rock";
         let computerSelection = getComputerChoice();
-        playRound(playerSelection, computerSelection);
-
-        
+        result = playRound(playerSelection, computerSelection);
+        if (result === 1) {
+            playerCounter++;
+            playerResult.textContent = "You: " + playerCounter;
+        } else if (result === 0) {
+            compCounter++;
+            compResult.textContent = "Computer: " + compCounter;
+        }
+        checkGameStatus();
     });
 
     paperButton.addEventListener("click", () => {
         let playerSelection = "paper";
         let computerSelection = getComputerChoice();
-        playRound(playerSelection, computerSelection);
+        result = playRound(playerSelection, computerSelection);
+        if (result === 1) {
+            playerCounter++;
+            playerResult.textContent = "You: " + playerCounter;
+        } else if (result === 0) {
+            compCounter++;
+            compResult.textContent = "Computer: " + compCounter;
+        }
+        checkGameStatus();
     });
 
     scissorsButton.addEventListener("click", () => {
         let playerSelection = "scissors";
         let computerSelection = getComputerChoice();
-        playRound(playerSelection, computerSelection);
+        result = playRound(playerSelection, computerSelection);
+        if (result === 1) {
+            playerCounter++;
+            playerResult.textContent = "You: " + playerCounter;
+        } else if (result === 0) {
+            compCounter++;
+            compResult.textContent = "Computer: " + compCounter;
+        }
+        checkGameStatus();
     });
 
-    // if (playerCounter > compCounter) {
-    //     gameLog.textContent("You've won the game!");
-    // }
-    // if (compCounter > playerCounter) {
-    //     gameLog.textContent("You've lost the game, better luck next time!");
-    // }
-    // if (playerCounter == compCounter) {
-    //     gameLog.textContent("The game ends in a tie!");
-    // }
+}
+
+function checkGameStatus() {
+    if (playerCounter === 5) {
+        gameResult.textContent = "You won!";
+        gameOver();
+    }
+    if (compCounter === 5) {
+        gameResult.textContent = "You lost...";
+        gameOver();
+    }
+}
+
+function gameOver() {
+    rockButton.disabled = true;
+    paperButton.disabled = true;
+    scissorsButton.disabled = true;
+    replayButton.classList.add("fadeIn");
+    replayButton.addEventListener("click", () => {
+        window.location.reload();
+    })
 }
 
 playGame();
